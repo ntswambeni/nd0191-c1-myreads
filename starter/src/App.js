@@ -16,6 +16,13 @@ function App() {
     getBooks();
   }, []);
 
+  const handleMove = (bookToMove) => {
+    setLibrary((prevState) => [
+      ...prevState.filter((book) => book.id !== bookToMove.id),
+      bookToMove,
+    ]);
+  };
+
   return (
     <div className="app">
       {showSearchPage ? (
@@ -28,6 +35,7 @@ function App() {
           library={library}
           showSearchPage={showSearchPage}
           setShowSearchpage={setShowSearchpage}
+          handleMove={handleMove}
         />
       )}
     </div>

@@ -1,7 +1,12 @@
 import React from "react";
 import Shelf from "./Shelf";
 
-const LibraryPage = ({ library, showSearchPage, setShowSearchpage }) => {
+const LibraryPage = ({
+  library,
+  showSearchPage,
+  setShowSearchpage,
+  handleMove,
+}) => {
   const filterBooksByShelf = (shelfTitle) => {
     return library.filter((book) => book.shelf === shelfTitle);
   };
@@ -27,6 +32,7 @@ const LibraryPage = ({ library, showSearchPage, setShowSearchpage }) => {
               key={shelf.title}
               title={shelf.title}
               listOfBooks={shelf.listOfBooks}
+              handleMove={handleMove}
             />
           ))}
         </div>
