@@ -15,9 +15,8 @@ function App() {
     getBooks();
   }, []);
 
-  const updatedBook = async (bookToMove) => {
-    const res = await BooksAPI.update(bookToMove, bookToMove.shelf);
-    console.log(res);
+  const updatedBook = (bookToMove) => {
+    BooksAPI.update(bookToMove, bookToMove.shelf);
   };
 
   const handleMove = (bookToMove) => {

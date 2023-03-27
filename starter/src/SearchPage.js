@@ -26,7 +26,7 @@ const SearchPage = ({ handleMove, library }) => {
       };
       searchBook();
     }
-  }, [searchQuery]);
+  }, [searchQuery, library]);
 
   return (
     <div className="search-books">
