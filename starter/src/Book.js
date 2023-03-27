@@ -19,13 +19,16 @@ const Book = ({ book, handleMove }) => {
             width: 128,
             height: 188,
             backgroundImage: `url(${
-              book.imageLinks.smallThumbnail && book.imageLinks.smallThumbnail
+              book.imageLinks && book.imageLinks.smallThumbnail
             })`,
           }}
         ></div>
         <div className="book-shelf-changer">
-          <select onChange={onMove} defaultValue={book.shelf}>
-            <option value="none">Move to...</option>
+          <select
+            onChange={onMove}
+            defaultValue={book.shelf ? book.shelf : "none"}
+          >
+            <option disabled>Move to...</option>
             <option value="currentlyReading">Currently Reading</option>
             <option value="wantToRead">Want to Read</option>
             <option value="read">Read</option>
@@ -34,11 +37,12 @@ const Book = ({ book, handleMove }) => {
         </div>
       </div>
       <div className="book-title">{book.title}</div>
-      {book.authors.map((author) => (
-        <div key={author} className="book-authors">
-          {author}
-        </div>
-      ))}
+      {book.authors &&
+        book.authors.map((author) => (
+          <div key={author} className="book-authors">
+            {author}
+          </div>
+        ))}
     </div>
   );
 };

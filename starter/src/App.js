@@ -31,7 +31,10 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/search" element={<SearchPage />} />
+        <Route
+          path="/search"
+          element={<SearchPage library={library} handleMove={handleMove} />}
+        />
         <Route
           exact
           path="/"
