@@ -10,13 +10,18 @@ function App() {
   useEffect(() => {
     const getBooks = async () => {
       const res = await BooksAPI.getAll();
-      console.log(res);
       setLibrary(res);
     };
     getBooks();
   }, []);
 
+  const updatedBook = async (bookToMove) => {
+    const res = await BooksAPI.update(bookToMove, bookToMove.shelf);
+    console.log(res);
+  };
+
   const handleMove = (bookToMove) => {
+    updatedBook(bookToMove);
     setLibrary((prevState) => [
       ...prevState.filter((book) => book.id !== bookToMove.id),
       bookToMove,
