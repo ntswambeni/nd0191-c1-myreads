@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import SearchPage from "./SearchPage";
 import LibraryPage from "./LibraryPage";
 import * as BooksAPI from "./BooksAPI";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-  const [showSearchPage, setShowSearchpage] = useState(false);
   const [library, setLibrary] = useState([]);
   useEffect(() => {
     const getBooks = async () => {
@@ -30,19 +30,14 @@ function App() {
 
   return (
     <div className="app">
-      {showSearchPage ? (
-        <SearchPage
-          showSearchPage={showSearchPage}
-          setShowSearchpage={setShowSearchpage}
+      <Routes>
+        <Route path="/search" element={<SearchPage />} />
+        <Route
+          exact
+          path="/"
+          element={<LibraryPage library={library} handleMove={handleMove} />}
         />
-      ) : (
-        <LibraryPage
-          library={library}
-          showSearchPage={showSearchPage}
-          setShowSearchpage={setShowSearchpage}
-          handleMove={handleMove}
-        />
-      )}
+      </Routes>
     </div>
   );
 }
