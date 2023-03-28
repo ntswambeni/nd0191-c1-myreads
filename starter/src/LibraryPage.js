@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Shelf from "./Shelf";
+import PropTypes from "prop-types";
 
 const LibraryPage = ({ library, handleMove }) => {
   const filterBooksByShelf = (shelfTitle) => {
@@ -38,6 +39,11 @@ const LibraryPage = ({ library, handleMove }) => {
       </div>
     </div>
   );
+};
+
+LibraryPage.propTypes = {
+  library: PropTypes.array.isRequired,
+  handleMove: PropTypes.func.isRequired,
 };
 
 export default LibraryPage;

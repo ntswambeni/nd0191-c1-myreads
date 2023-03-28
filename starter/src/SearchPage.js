@@ -2,31 +2,45 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { search } from "./BooksAPI";
 import Shelf from "./Shelf";
+import PropTypes from "prop-types";
+import useDebounce from "./useDebounce";
 
 const SearchPage = ({ handleMove, library }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [listOfBooks, setListOfBooks] = useState([]);
+  const [searchError, setSearchError] = useState(false);
+  const debouncedValue = useDebounce(searchQuery, 500);
+
+  const validateBooks = (searchedBooks, mainBooks) => {
+    const validatedBooks = searchedBooks.map((searchedBook) => {
+      const myBook = mainBooks.filter(
+        (myBook) => myBook.id === searchedBook.id
+      )[0];
+      searchedBook.shelf = myBook && myBook.shelf;
+      return searchedBook;
+    });
+    return validatedBooks;
+  };
+
   useEffect(() => {
-    if (searchQuery) {
+    if (debouncedValue === "") {
+      setSearchError(false);
+      setListOfBooks([]);
+    } else {
       const searchBook = async () => {
-        const res = await search(searchQuery);
+        const res = await search(debouncedValue);
         if (res.error) {
+          setSearchError(true);
           setListOfBooks([]);
         } else {
-          res.forEach((book) => {
-            for (let i = 0; i < library.length; i++) {
-              if (book.id === library[i].id) {
-                book.shelf = library[i].shelf;
-                return;
-              }
-            }
-          });
-          setListOfBooks(res);
+          setSearchError(false);
+          const validatedBooks = validateBooks(res, library);
+          setListOfBooks(validatedBooks);
         }
       };
       searchBook();
     }
-  }, [searchQuery, library]);
+  }, [debouncedValue, library]);
 
   return (
     <div className="search-books">
@@ -44,10 +58,19 @@ const SearchPage = ({ handleMove, library }) => {
         </div>
       </div>
       <div className="search-books-results">
-        <Shelf listOfBooks={listOfBooks} handleMove={handleMove} />
+        {searchError ? (
+          <h2 style={{ color: "red" }}>The book was not found</h2>
+        ) : (
+          <Shelf listOfBooks={listOfBooks} handleMove={handleMove} />
+        )}
       </div>
     </div>
   );
+};
+
+SearchPage.propTypes = {
+  library: PropTypes.array.isRequired,
+  handleMove: PropTypes.func.isRequired,
 };
 
 export default SearchPage;
