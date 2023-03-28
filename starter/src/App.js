@@ -4,6 +4,7 @@ import SearchPage from "./SearchPage";
 import LibraryPage from "./LibraryPage";
 import * as BooksAPI from "./BooksAPI";
 import { Routes, Route } from "react-router-dom";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   const [library, setLibrary] = useState([]);
@@ -39,6 +40,7 @@ function App() {
           path="/"
           element={<LibraryPage library={library} handleMove={handleMove} />}
         />
+        <Route path="*" element={<PageNotFound />}></Route>
       </Routes>
     </div>
   );
